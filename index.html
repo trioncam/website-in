@@ -1,0 +1,2084 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRIONCAM | Citizen Issue Intelligence & Governance Engagement Platform</title>
+    <meta name="description" content="Next-generation civic engagement platform bridging citizens and governance. Report issues, track progress, drive accountability.">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Professional Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --primary: #06b6d4;
+            --primary-dark: #0891b2;
+            --secondary: #8b5cf6;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-tertiary: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --card-bg: #ffffff;
+            --glow-primary: rgba(6, 182, 212, 0.3);
+            --glow-secondary: rgba(139, 92, 246, 0.3);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #020617;
+            --bg-secondary: #0f172a;
+            --bg-tertiary: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+            --border-color: #334155;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --card-bg: #1e293b;
+            --glow-primary: rgba(6, 182, 212, 0.5);
+            --glow-secondary: rgba(139, 92, 246, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.3s ease;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Animated Background */
+        .animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: var(--bg-primary);
+            transition: background 0.5s ease;
+        }
+
+        .animated-background::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: 
+                radial-gradient(circle at 20% 30%, var(--glow-primary) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, var(--glow-secondary) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.15) 0%, transparent 50%);
+            animation: backgroundFloat 20s ease-in-out infinite;
+        }
+
+        [data-theme="dark"] .animated-background::before {
+            opacity: 1;
+        }
+
+        [data-theme="light"] .animated-background::before {
+            opacity: 0.4;
+        }
+
+        @keyframes backgroundFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-30px, -30px) rotate(120deg); }
+            66% { transform: translate(30px, -50px) rotate(240deg); }
+        }
+
+        /* Grid Pattern */
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.3;
+            animation: gridScroll 30s linear infinite;
+        }
+
+        @keyframes gridScroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(60px); }
+        }
+
+        /* Floating Orbs */
+        .floating-orbs {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.6;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            top: -150px;
+            left: -150px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 250px;
+            height: 250px;
+            background: var(--secondary);
+            bottom: -125px;
+            right: -125px;
+            animation-delay: 7s;
+        }
+
+        .orb-3 {
+            width: 200px;
+            height: 200px;
+            background: var(--accent);
+            top: 50%;
+            left: 50%;
+            animation-delay: 14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(100px, -100px) scale(1.1); }
+            66% { transform: translate(-100px, 100px) scale(0.9); }
+        }
+
+        @media (min-width: 768px) {
+            .orb-1 {
+                width: 400px;
+                height: 400px;
+                top: -200px;
+                left: -200px;
+            }
+            
+            .orb-2 {
+                width: 350px;
+                height: 350px;
+                bottom: -175px;
+                right: -175px;
+            }
+            
+            .orb-3 {
+                width: 300px;
+                height: 300px;
+            }
+        }
+
+        /* Enhanced Theme Toggle */
+        .theme-switch {
+            position: relative;
+            width: 56px;
+            height: 28px;
+            background: var(--bg-tertiary);
+            border-radius: 34px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid var(--border-color);
+            box-shadow: inset 0 2px 8px var(--shadow-color);
+        }
+
+        @media (min-width: 768px) {
+            .theme-switch {
+                width: 60px;
+                height: 30px;
+            }
+        }
+
+        .theme-switch:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--glow-primary);
+        }
+
+        .theme-switch-slider {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (min-width: 768px) {
+            .theme-switch-slider {
+                width: 22px;
+                height: 22px;
+            }
+        }
+
+        .theme-switch-slider i {
+            color: white;
+            width: 12px;
+            height: 12px;
+        }
+
+        @media (min-width: 768px) {
+            .theme-switch-slider i {
+                width: 14px;
+                height: 14px;
+            }
+        }
+
+        .theme-switch.active .theme-switch-slider {
+            transform: translateX(28px);
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        }
+
+        @media (min-width: 768px) {
+            .theme-switch.active .theme-switch-slider {
+                transform: translateX(30px);
+            }
+        }
+
+        /* Logo Theme Switching */
+        [data-theme="dark"] .logo-dark {
+            display: block !important;
+        }
+
+        [data-theme="dark"] .logo-light {
+            display: none !important;
+        }
+
+        [data-theme="light"] .logo-dark {
+            display: none !important;
+        }
+
+        [data-theme="light"] .logo-light {
+            display: block !important;
+        }
+
+        /* Navbar */
+        nav {
+            backdrop-filter: blur(20px);
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px var(--shadow-color);
+        }
+
+        [data-theme="light"] nav {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        [data-theme="dark"] nav {
+            background: rgba(2, 6, 23, 0.95);
+        }
+
+        .nav-link {
+            position: relative;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Gradient Text */
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 6s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Glowing Button */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.75rem 1.75rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 20px var(--glow-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (min-width: 640px) {
+            .btn-primary {
+                padding: 0.875rem 2rem;
+            }
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px var(--glow-primary);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            padding: 0.75rem 1.75rem;
+            border-radius: 12px;
+            font-weight: 600;
+            border: 2px solid var(--primary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (min-width: 640px) {
+            .btn-secondary {
+                padding: 0.875rem 2rem;
+            }
+        }
+
+        .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.4s ease;
+            z-index: -1;
+        }
+
+        .btn-secondary:hover::before {
+            width: 100%;
+        }
+
+        .btn-secondary:hover {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px var(--glow-primary);
+        }
+
+        /* Enhanced Countdown */
+        .countdown-section {
+            position: relative;
+            padding: 2rem 1rem;
+            overflow: hidden;
+        }
+
+        @media (min-width: 640px) {
+            .countdown-section {
+                padding: 3rem 1rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .countdown-section {
+                padding: 4rem 2rem;
+            }
+        }
+
+        .countdown-container {
+            position: relative;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.5rem 1rem;
+            overflow: hidden;
+            box-shadow: 0 20px 60px var(--shadow-color);
+        }
+
+        @media (min-width: 640px) {
+            .countdown-container {
+                border-radius: 24px;
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .countdown-container {
+                padding: 3rem 2rem;
+            }
+        }
+
+        .countdown-bg-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: particleFloat 15s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .countdown-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0.1;
+            animation: wave 8s ease-in-out infinite;
+            transform-origin: bottom;
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: scaleY(1) translateX(0);
+            }
+            50% {
+                transform: scaleY(1.5) translateX(50px);
+            }
+        }
+
+        .countdown-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 0.875rem 0.5rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 20px var(--shadow-color);
+        }
+
+        @media (min-width: 640px) {
+            .countdown-box {
+                border-radius: 16px;
+                padding: 1.25rem 0.75rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .countdown-box {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        .countdown-box::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        @media (min-width: 640px) {
+            .countdown-box::before {
+                border-radius: 16px;
+            }
+        }
+
+        .countdown-box:hover::before {
+            opacity: 1;
+        }
+
+        .countdown-box:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 20px 40px var(--glow-primary);
+        }
+
+        .countdown-number {
+            font-size: 1.75rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            line-height: 1;
+            text-shadow: 0 0 30px var(--glow-primary);
+            position: relative;
+            z-index: 10;
+        }
+
+        @media (min-width: 640px) {
+            .countdown-number {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .countdown-number {
+                font-size: 3rem;
+            }
+        }
+
+        .countdown-number-wrapper {
+            position: relative;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (min-width: 640px) {
+            .countdown-number-wrapper {
+                height: 3.5rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .countdown-number-wrapper {
+                height: 4rem;
+            }
+        }
+
+        /* Blob animations for background */
+        @keyframes blob {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+        }
+
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+
+        .animation-delay-1000 {
+            animation-delay: 1s;
+        }
+
+        /* Slow pulse */
+        @keyframes pulse-slow {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .animate-pulse-slow {
+            animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Slow ping */
+        @keyframes ping-slow {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .animate-ping-slow {
+            animation: ping-slow 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+
+        /* Feature Cards with Parallax */
+        .feature-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+
+        @media (min-width: 768px) {
+            .feature-card {
+                padding: 2rem;
+            }
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--glow-primary), var(--glow-secondary));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .feature-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 25px 50px var(--glow-primary);
+        }
+
+        .feature-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            color: white;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 20px var(--glow-primary);
+        }
+
+        @media (min-width: 768px) {
+            .feature-icon {
+                width: 70px;
+                height: 70px;
+            }
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: rotateY(360deg) scale(1.1);
+            box-shadow: 0 12px 30px var(--glow-primary);
+        }
+
+        /* Stats with Animation */
+        .stat-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            padding: 1rem 0.75rem;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px var(--shadow-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (min-width: 640px) {
+            .stat-card {
+                padding: 1.5rem 1rem;
+                border-radius: 18px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .stat-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .stat-card:hover::after {
+            left: 100%;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px var(--glow-primary);
+        }
+
+        .stat-number {
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            line-height: 1.2;
+        }
+
+        /* Timeline with Animation */
+        .timeline-item {
+            position: relative;
+            padding-left: 2.5rem;
+            padding-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .timeline-item {
+                padding-left: 3rem;
+                padding-bottom: 2.5rem;
+            }
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 4px;
+            animation: timelinePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes timelinePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -9px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+            box-shadow: 0 0 0 3px var(--border-color), 0 0 20px var(--glow-primary);
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes dotPulse {
+            0%, 100% {
+                box-shadow: 0 0 0 3px var(--border-color), 0 0 20px var(--glow-primary);
+            }
+            50% {
+                box-shadow: 0 0 0 6px var(--border-color), 0 0 30px var(--glow-primary);
+            }
+        }
+
+        /* Image Placeholder with Animation */
+        .image-placeholder {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 40px var(--shadow-color);
+        }
+
+        @media (min-width: 640px) {
+            .image-placeholder {
+                border-radius: 24px;
+                min-height: 350px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .image-placeholder {
+                min-height: 450px;
+            }
+        }
+
+        .image-placeholder::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 10px,
+                    var(--border-color) 10px,
+                    var(--border-color) 11px
+                );
+            opacity: 0.1;
+            animation: diagonalScroll 20s linear infinite;
+        }
+
+        @keyframes diagonalScroll {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(50px) translateY(50px); }
+        }
+
+        .image-placeholder::after {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--glow-primary) 0%, transparent 70%);
+            animation: glow 4s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                transform: translate(-50%, -50%);
+            }
+            50% {
+                transform: translate(-30%, -30%);
+            }
+        }
+
+        /* Scroll Animations */
+        .scroll-fade-in {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .scroll-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Loading Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Mobile Menu Overlay */
+        #mobile-menu {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        #mobile-menu.show {
+            max-height: 500px;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="grid-overlay"></div>
+        <div class="floating-orbs">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 sm:h-20">
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <img src="logo.png" alt="TRIONCAM Logo" class="h-8 sm:h-10 w-auto logo-dark" style="display: block;">
+                    <img src="logo2.png" alt="TRIONCAM Logo" class="h-8 sm:h-10 w-auto logo-light" style="display: none;">
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-sm font-medium">Home</a>
+                    <a href="#features" class="nav-link text-sm font-medium">Features</a>
+                    <a href="#platform" class="nav-link text-sm font-medium">Platform</a>
+                    <a href="#launch" class="nav-link text-sm font-medium">Launch</a>
+                    <a href="#contact" class="nav-link text-sm font-medium">Contact</a>
+                    <div class="theme-switch" id="themeToggle">
+                        <div class="theme-switch-slider">
+                            <i data-lucide="moon" class="theme-icon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="md:hidden" id="mobile-menu-btn" style="color: var(--text-primary);">
+                    <i data-lucide="menu" class="w-6 h-6" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="md:hidden" id="mobile-menu" style="background: var(--bg-secondary); border-top: 1px solid var(--border-color);">
+            <div class="px-4 pt-2 pb-3 space-y-1">
+                <a href="#home" class="mobile-nav-link block px-3 py-2 rounded-md" style="color: var(--text-primary);">Home</a>
+                <a href="#features" class="mobile-nav-link block px-3 py-2 rounded-md" style="color: var(--text-primary);">Features</a>
+                <a href="#platform" class="mobile-nav-link block px-3 py-2 rounded-md" style="color: var(--text-primary);">Platform</a>
+                <a href="#launch" class="mobile-nav-link block px-3 py-2 rounded-md" style="color: var(--text-primary);">Launch</a>
+                <a href="#contact" class="mobile-nav-link block px-3 py-2 rounded-md" style="color: var(--text-primary);">Contact</a>
+                <div class="px-3 py-2 flex items-center space-x-3">
+                    <span class="text-sm" style="color: var(--text-secondary);">Theme</span>
+                    <div class="theme-switch" id="themeToggleMobile">
+                        <div class="theme-switch-slider">
+                            <i data-lucide="moon" class="theme-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-24 pb-12 px-4 sm:px-6 relative">
+        <div class="max-w-7xl mx-auto w-full">
+            <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                <div data-aos="fade-right" data-aos-duration="1000" class="text-center lg:text-left">
+                    <div class="inline-block mb-3 sm:mb-4 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border-2 backdrop-blur-sm" style="border-color: var(--border-color); background: var(--bg-secondary); box-shadow: 0 4px 12px var(--shadow-color);">
+                        <span class="text-[10px] sm:text-xs font-semibold" style="color: var(--primary);">By ALGOORBIT INNOVATIONS</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold mb-3 sm:mb-4 hero-gradient leading-tight">
+                        TRIONCAM
+                    </h1>
+                    <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3" style="color: var(--text-primary);">
+                        Citizen Issue Intelligence Platform
+                    </p>
+                    <p class="text-sm sm:text-base lg:text-lg mb-5 sm:mb-6 leading-relaxed max-w-xl mx-auto lg:mx-0" style="color: var(--text-secondary);">
+                        Transform how citizens engage with governance. Report civic issues instantly, track resolution progress in real-time, and hold authorities accountable.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                        <button class="btn-primary text-sm sm:text-base flex items-center justify-center space-x-2 w-full sm:w-auto">
+                            <span>Join the Waitlist</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        </button>
+                        <button class="btn-secondary text-sm sm:text-base flex items-center justify-center space-x-2 w-full sm:w-auto">
+                            <span>Watch Demo</span>
+                            <i data-lucide="play-circle" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200" class="relative mt-8 lg:mt-0">
+                    <div class="image-placeholder">
+                        <div class="text-center z-10 relative px-4">
+                            <i data-lucide="smartphone" class="w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 mx-auto mb-3" style="color: var(--primary); opacity: 0.4;"></i>
+                            <p class="text-sm sm:text-base lg:text-lg font-semibold" style="color: var(--text-primary);">Mobile App Preview</p>
+                            <p class="text-xs sm:text-sm mt-1" style="color: var(--text-secondary);">Coming March 5th, 2026</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-10 sm:py-16 lg:py-20 px-4 relative" style="background: var(--bg-secondary);">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+                <div class="stat-card scroll-fade-in" data-aos="zoom-in" data-aos-delay="0">
+                    <i data-lucide="users" class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mx-auto mb-2 sm:mb-3" style="color: var(--primary);"></i>
+                    <div class="stat-number text-2xl sm:text-3xl lg:text-4xl">100K+</div>
+                    <p class="text-[10px] sm:text-xs lg:text-sm font-semibold mt-1 sm:mt-2" style="color: var(--text-secondary);">Expected Users</p>
+                </div>
+                <div class="stat-card scroll-fade-in" data-aos="zoom-in" data-aos-delay="100">
+                    <i data-lucide="map-pin" class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mx-auto mb-2 sm:mb-3" style="color: var(--primary);"></i>
+                    <div class="stat-number text-2xl sm:text-3xl lg:text-4xl">50+</div>
+                    <p class="text-[10px] sm:text-xs lg:text-sm font-semibold mt-1 sm:mt-2" style="color: var(--text-secondary);">Cities Covered</p>
+                </div>
+                <div class="stat-card scroll-fade-in" data-aos="zoom-in" data-aos-delay="200">
+                    <i data-lucide="clock" class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mx-auto mb-2 sm:mb-3" style="color: var(--primary);"></i>
+                    <div class="stat-number text-2xl sm:text-3xl lg:text-4xl">24/7</div>
+                    <p class="text-[10px] sm:text-xs lg:text-sm font-semibold mt-1 sm:mt-2" style="color: var(--text-secondary);">Live Tracking</p>
+                </div>
+                <div class="stat-card scroll-fade-in" data-aos="zoom-in" data-aos-delay="300">
+                    <i data-lucide="shield-check" class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 mx-auto mb-2 sm:mb-3" style="color: var(--primary);"></i>
+                    <div class="stat-number text-2xl sm:text-3xl lg:text-4xl">100%</div>
+                    <p class="text-[10px] sm:text-xs lg:text-sm font-semibold mt-1 sm:mt-2" style="color: var(--text-secondary);">Transparency</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem & Solution Section -->
+    <section class="py-10 sm:py-16 lg:py-20 px-4 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-start">
+                <div data-aos="fade-right" data-aos-duration="1000">
+                    <div class="mb-4 sm:mb-6">
+                        <span class="text-xs sm:text-sm font-bold uppercase tracking-wider" style="color: var(--primary);">The Challenge</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8">
+                        Current Civic Reporting Systems Are Broken
+                    </h2>
+                    <div class="space-y-4 sm:space-y-6">
+                        <div class="flex items-start space-x-3 sm:space-x-4 scroll-fade-in">
+                            <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center" style="background: rgba(239, 68, 68, 0.1); border: 2px solid var(--danger);">
+                                <i data-lucide="x" class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--danger);"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base sm:text-lg mb-1">Zero Transparency</h4>
+                                <p class="text-sm sm:text-base" style="color: var(--text-secondary);">Citizens report issues and never know what happened. Complete black box of information.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3 sm:space-x-4 scroll-fade-in">
+                            <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center" style="background: rgba(239, 68, 68, 0.1); border: 2px solid var(--danger);">
+                                <i data-lucide="x" class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--danger);"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base sm:text-lg mb-1">No Accountability</h4>
+                                <p class="text-sm sm:text-base" style="color: var(--text-secondary);">Departments ignore citizen complaints with zero consequences or follow-up mechanisms.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3 sm:space-x-4 scroll-fade-in">
+                            <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center" style="background: rgba(239, 68, 68, 0.1); border: 2px solid var(--danger);">
+                                <i data-lucide="x" class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--danger);"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base sm:text-lg mb-1">Fragmented Systems</h4>
+                                <p class="text-sm sm:text-base" style="color: var(--text-secondary);">Multiple disconnected platforms across departments create confusion and inefficiency.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3 sm:space-x-4 scroll-fade-in">
+                            <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center" style="background: rgba(239, 68, 68, 0.1); border: 2px solid var(--danger);">
+                                <i data-lucide="x" class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--danger);"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base sm:text-lg mb-1">Poor User Experience</h4>
+                                <p class="text-sm sm:text-base" style="color: var(--text-secondary);">Complex forms, outdated interfaces, and difficult navigation discourage citizen participation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="mb-4 sm:mb-6">
+                        <span class="text-xs sm:text-sm font-bold uppercase tracking-wider" style="color: var(--primary);">Our Solution</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8">
+                        A Social Platform for Civic Engagement
+                    </h2>
+                    <p class="text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed" style="color: var(--text-secondary);">
+                        TRIONCAM reimagines civic reporting as a social experience. Like Instagram for public issues - intuitive, engaging, and transparent.
+                    </p>
+                    <div class="space-y-4 sm:space-y-6">
+                        <div class="flex items-start space-x-3 sm:space-x-4 scroll-fade-in">
+                            <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center" style="background: rgba(16, 185, 129, 0.1); border: 2px solid var(--success);">
+                                <i data-lucide="check" class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--success);"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base sm:text-lg mb-1">Social Feed Interface</h4>
+                                <p class="text-sm sm:text-base" style="color: var(--text-secondary);">Infinite scroll of civic issues in your area. Upvote, comment, share - just like social media.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3 sm:space-x-4 scroll-fade-in">
+                            <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center" style="background: rgba(16, 185, 129, 0.1); border: 2px solid var(--success);">
+                                <i data-lucide="check" class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--success);"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base sm:text-lg mb-1">Real-Time Tracking</h4>
+                                <p class="text-sm sm:text-base" style="color: var(--text-secondary);">Live updates at every stage. Know exactly who's handling your issue and what's happening.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3 sm:space-x-4 scroll-fade-in">
+                            <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center" style="background: rgba(16, 185, 129, 0.1); border: 2px solid var(--success);">
+                                <i data-lucide="check" class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--success);"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base sm:text-lg mb-1">Automatic Escalation</h4>
+                                <p class="text-sm sm:text-base" style="color: var(--text-secondary);">SLA-based escalation to MLAs/MPs ensures no issue gets ignored beyond acceptable timeframes.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3 sm:space-x-4 scroll-fade-in">
+                            <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center" style="background: rgba(16, 185, 129, 0.1); border: 2px solid var(--success);">
+                                <i data-lucide="check" class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--success);"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base sm:text-lg mb-1">Community Driven</h4>
+                                <p class="text-sm sm:text-base" style="color: var(--text-secondary);">Build reputation, earn badges, and contribute to making your community better.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Countdown Section -->
+    <section id="launch" class="countdown-section relative overflow-hidden" style="background: var(--bg-secondary);">
+        <!-- Dynamic Background Elements -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-0 left-0 w-full h-full">
+                <div class="absolute top-1/4 left-1/4 w-72 h-72 md:w-96 md:h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+                <div class="absolute top-1/3 right-1/4 w-72 h-72 md:w-96 md:h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+                <div class="absolute bottom-1/4 left-1/3 w-72 h-72 md:w-96 md:h-96 bg-amber-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="text-center mb-6 sm:mb-8 lg:mb-12" data-aos="fade-up">
+                <!-- Pulsing Badge -->
+                <div class="inline-flex items-center gap-2 mb-3 sm:mb-4 px-4 sm:px-6 py-1.5 sm:py-2 rounded-full border-2 backdrop-blur-sm animate-pulse-slow" style="border-color: var(--primary); background: rgba(6, 182, 212, 0.1); box-shadow: 0 0 30px var(--glow-primary);">
+                    <div class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
+                    </div>
+                    <span class="text-[10px] sm:text-xs lg:text-sm font-bold uppercase tracking-wider" style="color: var(--primary);">COMING SOON</span>
+                </div>
+                
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-black mt-2 sm:mt-3 lg:mt-4 mb-2 sm:mb-3 tracking-tight">
+                    <span class="hero-gradient block">The Wait is Almost Over!</span>
+                </h2>
+                <p class="text-base sm:text-lg lg:text-2xl font-semibold mb-1 sm:mb-2" style="color: var(--text-primary);">
+                    Launching March 5th, 2026
+                </p>
+                <p class="text-sm sm:text-base lg:text-xl max-w-2xl mx-auto" style="color: var(--text-secondary);">
+                    Be part of the civic revolution. Transform governance together.
+                </p>
+            </div>
+            
+            <div class="countdown-container max-w-6xl mx-auto relative" data-aos="zoom-in" data-aos-delay="200">
+                <!-- Enhanced Particles -->
+                <div class="countdown-bg-particles" id="particlesContainer"></div>
+                
+                <!-- Animated Wave Background -->
+                <div class="countdown-wave"></div>
+                
+                <!-- Glowing Rings - Hidden on mobile for performance -->
+                <div class="absolute inset-0 pointer-events-none hidden sm:block">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] rounded-full border-2 opacity-20 animate-ping-slow" style="border-color: var(--primary);"></div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] rounded-full border-2 opacity-30 animate-ping-slow animation-delay-1000" style="border-color: var(--secondary);"></div>
+                </div>
+
+                <!-- Countdown Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 lg:gap-6 relative z-10">
+                    <div class="countdown-box group">
+                        <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="relative">
+                            <div class="countdown-number-wrapper">
+                                <div class="countdown-number" id="days">00</div>
+                            </div>
+                            <div class="text-[10px] sm:text-xs lg:text-sm font-bold uppercase tracking-wider mt-2 sm:mt-3 flex items-center justify-center gap-1 sm:gap-2" style="color: var(--text-secondary);">
+                                <i data-lucide="calendar" class="w-3 h-3 sm:w-4 sm:h-4"></i>
+                                Days
+                            </div>
+                            <div class="mt-1 sm:mt-2 h-0.5 sm:h-1 w-full bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50 rounded-full"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="countdown-box group">
+                        <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="relative">
+                            <div class="countdown-number-wrapper">
+                                <div class="countdown-number" id="hours">00</div>
+                            </div>
+                            <div class="text-[10px] sm:text-xs lg:text-sm font-bold uppercase tracking-wider mt-2 sm:mt-3 flex items-center justify-center gap-1 sm:gap-2" style="color: var(--text-secondary);">
+                                <i data-lucide="clock" class="w-3 h-3 sm:w-4 sm:h-4"></i>
+                                Hours
+                            </div>
+                            <div class="mt-1 sm:mt-2 h-0.5 sm:h-1 w-full bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-50 rounded-full"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="countdown-box group">
+                        <div class="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-amber-500/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="relative">
+                            <div class="countdown-number-wrapper">
+                                <div class="countdown-number" id="minutes">00</div>
+                            </div>
+                            <div class="text-[10px] sm:text-xs lg:text-sm font-bold uppercase tracking-wider mt-2 sm:mt-3 flex items-center justify-center gap-1 sm:gap-2" style="color: var(--text-secondary);">
+                                <i data-lucide="timer" class="w-3 h-3 sm:w-4 sm:h-4"></i>
+                                Minutes
+                            </div>
+                            <div class="mt-1 sm:mt-2 h-0.5 sm:h-1 w-full bg-gradient-to-r from-transparent via-pink-500 to-transparent opacity-50 rounded-full"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="countdown-box group">
+                        <div class="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-cyan-500/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="relative">
+                            <div class="countdown-number-wrapper">
+                                <div class="countdown-number" id="seconds">00</div>
+                            </div>
+                            <div class="text-[10px] sm:text-xs lg:text-sm font-bold uppercase tracking-wider mt-2 sm:mt-3 flex items-center justify-center gap-1 sm:gap-2" style="color: var(--text-secondary);">
+                                <i data-lucide="zap" class="w-3 h-3 sm:w-4 sm:h-4"></i>
+                                Seconds
+                            </div>
+                            <div class="mt-1 sm:mt-2 h-0.5 sm:h-1 w-full bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-50 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Call to Action Below Countdown -->
+                <div class="mt-6 sm:mt-8 lg:mt-12 text-center" data-aos="fade-up" data-aos-delay="400">
+                    <p class="text-xs sm:text-sm lg:text-base mb-4 sm:mb-6" style="color: var(--text-secondary);">
+                        Join <span class="font-bold" style="color: var(--primary);">10,000+</span> citizens already on the waitlist
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
+                        <button class="btn-primary text-sm sm:text-base flex items-center justify-center space-x-2 group w-full sm:w-auto">
+                            <i data-lucide="bell" class="w-4 h-4 sm:w-5 sm:h-5 group-hover:animate-bounce"></i>
+                            <span>Notify Me at Launch</span>
+                        </button>
+                        <button class="btn-secondary text-sm sm:text-base flex items-center justify-center space-x-2 w-full sm:w-auto">
+                            <i data-lucide="share-2" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                            <span>Share with Friends</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Social Proof Bar -->
+                <div class="mt-6 sm:mt-8 lg:mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-6 lg:gap-8 opacity-70">
+                    <div class="flex items-center gap-2">
+                        <div class="flex -space-x-2">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-cyan-400 to-cyan-600 border-2 border-white dark:border-gray-800"></div>
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-white dark:border-gray-800"></div>
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 border-2 border-white dark:border-gray-800"></div>
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 border-2 border-white dark:border-gray-800 flex items-center justify-center text-[10px] sm:text-xs font-bold text-white">
+                                +10K
+                            </div>
+                        </div>
+                        <span class="text-[10px] sm:text-xs lg:text-sm font-medium" style="color: var(--text-secondary);">Early adopters</span>
+                    </div>
+                    <div class="flex items-center gap-1 sm:gap-2">
+                        <i data-lucide="star" class="w-3 h-3 sm:w-4 sm:h-4 fill-amber-400 text-amber-400"></i>
+                        <i data-lucide="star" class="w-3 h-3 sm:w-4 sm:h-4 fill-amber-400 text-amber-400"></i>
+                        <i data-lucide="star" class="w-3 h-3 sm:w-4 sm:h-4 fill-amber-400 text-amber-400"></i>
+                        <i data-lucide="star" class="w-3 h-3 sm:w-4 sm:h-4 fill-amber-400 text-amber-400"></i>
+                        <i data-lucide="star" class="w-3 h-3 sm:w-4 sm:h-4 fill-amber-400 text-amber-400"></i>
+                        <span class="text-[10px] sm:text-xs lg:text-sm font-medium ml-1" style="color: var(--text-secondary);">Highly anticipated</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-10 sm:py-16 lg:py-20 px-4 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-10 sm:mb-12 lg:mb-16" data-aos="fade-up">
+                <span class="text-xs sm:text-sm font-bold uppercase tracking-wider" style="color: var(--primary);">Powerful Features</span>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mt-3 sm:mt-4 mb-3 sm:mb-4 lg:mb-6">
+                    Built for Citizens, Designed for Impact
+                </h2>
+                <p class="text-sm sm:text-base lg:text-xl max-w-3xl mx-auto" style="color: var(--text-secondary);">
+                    Every feature engineered to strengthen democracy and empower citizens
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
+                    <div class="feature-icon">
+                        <i data-lucide="camera" class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10"></i>
+                    </div>
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3">One-Tap Issue Reporting</h3>
+                    <p class="text-sm sm:text-base" style="color: var(--text-secondary);">
+                        Capture photos or videos, add GPS location automatically, describe the issue, and submit in under 30 seconds.
+                    </p>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <i data-lucide="activity" class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10"></i>
+                    </div>
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3">Live Issue Tracking</h3>
+                    <p class="text-sm sm:text-base" style="color: var(--text-secondary);">
+                        Watch your issue progress through each stage - from submission to department assignment to resolution.
+                    </p>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <i data-lucide="trending-up" class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10"></i>
+                    </div>
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3">Smart Escalation Engine</h3>
+                    <p class="text-sm sm:text-base" style="color: var(--text-secondary);">
+                        Department-specific SLA timers ensure accountability. Unresolved issues automatically escalate to MLAs and MPs.
+                    </p>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <i data-lucide="layout-grid" class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10"></i>
+                    </div>
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3">Discover Feed</h3>
+                    <p class="text-sm sm:text-base" style="color: var(--text-secondary);">
+                        Explore civic issues in your neighborhood through an infinite scrolling feed. Filter by category, status, and distance.
+                    </p>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-icon">
+                        <i data-lucide="message-circle" class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10"></i>
+                    </div>
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3">Community Engagement</h3>
+                    <p class="text-sm sm:text-base" style="color: var(--text-secondary);">
+                        Upvote issues to signal importance, comment to add context, share on social media to raise awareness.
+                    </p>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="feature-icon">
+                        <i data-lucide="award" class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10"></i>
+                    </div>
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3">Citizen Reputation System</h3>
+                    <p class="text-sm sm:text-base" style="color: var(--text-secondary);">
+                        Earn verified citizen badges and build contribution scores through quality reporting.
+                    </p>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="feature-icon">
+                        <i data-lucide="shield" class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10"></i>
+                    </div>
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3">Department Dashboards</h3>
+                    <p class="text-sm sm:text-base" style="color: var(--text-secondary);">
+                        Government departments get streamlined interfaces with role-based access, priority tagging, and SLA monitoring.
+                    </p>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="700">
+                    <div class="feature-icon">
+                        <i data-lucide="user-check" class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10"></i>
+                    </div>
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3">Representative Portals</h3>
+                    <p class="text-sm sm:text-base" style="color: var(--text-secondary);">
+                        MLAs and MPs access constituency-based filtering, escalation management, and public accountability dashboards.
+                    </p>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="800">
+                    <div class="feature-icon">
+                        <i data-lucide="bar-chart" class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10"></i>
+                    </div>
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3">Analytics & Insights</h3>
+                    <p class="text-sm sm:text-base" style="color: var(--text-secondary);">
+                        Comprehensive data visualization of issue trends, department performance, resolution times, and community metrics.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="platform" class="py-10 sm:py-16 lg:py-20 px-4 relative" style="background: var(--bg-secondary);">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-10 sm:mb-12 lg:mb-16" data-aos="fade-up">
+                <span class="text-xs sm:text-sm font-bold uppercase tracking-wider" style="color: var(--primary);">Simple Process</span>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mt-3 sm:mt-4 mb-3 sm:mb-4 lg:mb-6">
+                    From Report to Resolution
+                </h2>
+                <p class="text-sm sm:text-base lg:text-xl max-w-3xl mx-auto" style="color: var(--text-secondary);">
+                    A seamless journey ensuring every civic issue gets the attention it deserves
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
+                <div>
+                    <div class="timeline-item" data-aos="fade-right">
+                        <div class="timeline-dot"></div>
+                        <div class="rounded-2xl p-4 sm:p-5 lg:p-6 border-2" style="background: var(--card-bg); border-color: var(--border-color); box-shadow: 0 10px 30px var(--shadow-color);">
+                            <div class="flex items-center space-x-3 mb-3 sm:mb-4">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(6, 182, 212, 0.1); border: 2px solid var(--primary);">
+                                    <i data-lucide="upload" class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--primary);"></i>
+                                </div>
+                                <h3 class="text-base sm:text-lg lg:text-xl font-bold">Report Issue</h3>
+                            </div>
+                            <p class="text-sm sm:text-base" style="color: var(--text-secondary);">Citizens report civic problems through mobile app with photos, location, and description. Quick, easy, and intuitive interface.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item" data-aos="fade-right" data-aos-delay="100">
+                        <div class="timeline-dot"></div>
+                        <div class="rounded-2xl p-4 sm:p-5 lg:p-6 border-2" style="background: var(--card-bg); border-color: var(--border-color); box-shadow: 0 10px 30px var(--shadow-color);">
+                            <div class="flex items-center space-x-3 mb-3 sm:mb-4">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(6, 182, 212, 0.1); border: 2px solid var(--primary);">
+                                    <i data-lucide="git-branch" class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--primary);"></i>
+                                </div>
+                                <h3 class="text-base sm:text-lg lg:text-xl font-bold">Smart Routing</h3>
+                            </div>
+                            <p class="text-sm sm:text-base" style="color: var(--text-secondary);">AI categorizes the issue type and automatically routes it to the appropriate government department for action.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item" data-aos="fade-right" data-aos-delay="200">
+                        <div class="timeline-dot"></div>
+                        <div class="rounded-2xl p-4 sm:p-5 lg:p-6 border-2" style="background: var(--card-bg); border-color: var(--border-color); box-shadow: 0 10px 30px var(--shadow-color);">
+                            <div class="flex items-center space-x-3 mb-3 sm:mb-4">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(6, 182, 212, 0.1); border: 2px solid var(--primary);">
+                                    <i data-lucide="eye" class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--primary);"></i>
+                                </div>
+                                <h3 class="text-base sm:text-lg lg:text-xl font-bold">Track Progress</h3>
+                            </div>
+                            <p class="text-sm sm:text-base" style="color: var(--text-secondary);">Real-time updates show department assignment, officer responsibility, and action status. Complete transparency at every step.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="timeline-item" data-aos="fade-right" data-aos-delay="300">
+                        <div class="timeline-dot"></div>
+                        <div class="rounded-2xl p-4 sm:p-5 lg:p-6 border-2" style="background: var(--card-bg); border-color: var(--border-color); box-shadow: 0 10px 30px var(--shadow-color);">
+                            <div class="flex items-center space-x-3 mb-3 sm:mb-4">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(6, 182, 212, 0.1); border: 2px solid var(--primary);">
+                                    <i data-lucide="alert-triangle" class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--primary);"></i>
+                                </div>
+                                <h3 class="text-base sm:text-lg lg:text-xl font-bold">Auto-Escalate</h3>
+                            </div>
+                            <p class="text-sm sm:text-base" style="color: var(--text-secondary);">If departments don't respond within SLA timeframes, issues automatically escalate to elected representatives for intervention.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item" data-aos="fade-right" data-aos-delay="400">
+                        <div class="timeline-dot"></div>
+                        <div class="rounded-2xl p-4 sm:p-5 lg:p-6 border-2" style="background: var(--card-bg); border-color: var(--border-color); box-shadow: 0 10px 30px var(--shadow-color);">
+                            <div class="flex items-center space-x-3 mb-3 sm:mb-4">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(6, 182, 212, 0.1); border: 2px solid var(--primary);">
+                                    <i data-lucide="check-circle" class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--primary);"></i>
+                                </div>
+                                <h3 class="text-base sm:text-lg lg:text-xl font-bold">Verify Resolution</h3>
+                            </div>
+                            <p class="text-sm sm:text-base" style="color: var(--text-secondary);">Departments upload proof of resolution with before/after photos. Citizens verify and confirm issue closure, ensuring accountability.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item" data-aos="fade-right" data-aos-delay="500">
+                        <div class="timeline-dot"></div>
+                        <div class="rounded-2xl p-4 sm:p-5 lg:p-6 border-2" style="background: var(--card-bg); border-color: var(--border-color); box-shadow: 0 10px 30px var(--shadow-color);">
+                            <div class="flex items-center space-x-3 mb-3 sm:mb-4">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0" style="background: rgba(6, 182, 212, 0.1); border: 2px solid var(--primary);">
+                                    <i data-lucide="share-2" class="w-5 h-5 sm:w-6 sm:h-6" style="color: var(--primary);"></i>
+                                </div>
+                                <h3 class="text-base sm:text-lg lg:text-xl font-bold">Community Impact</h3>
+                            </div>
+                            <p class="text-sm sm:text-base" style="color: var(--text-secondary);">Resolved issues remain visible as success stories, building trust and encouraging more citizens to participate in civic engagement.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Department Coverage -->
+    <section class="py-10 sm:py-16 lg:py-20 px-4 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-10 sm:mb-12 lg:mb-16" data-aos="fade-up">
+                <span class="text-xs sm:text-sm font-bold uppercase tracking-wider" style="color: var(--primary);">Comprehensive Coverage</span>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mt-3 sm:mt-4 mb-3 sm:mb-4 lg:mb-6">
+                    Every Department, Every Issue
+                </h2>
+                <p class="text-sm sm:text-base lg:text-xl max-w-3xl mx-auto" style="color: var(--text-secondary);">
+                    Intelligent routing to the right government department based on issue category
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="0">
+                    <div class="flex items-center space-x-3 sm:space-x-4">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(6, 182, 212, 0.1); border: 2px solid var(--primary);">
+                            <i data-lucide="construction" class="w-6 h-6 sm:w-7 sm:h-7" style="color: var(--primary);"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm sm:text-base lg:text-lg">Roads & Infrastructure</h4>
+                            <p class="text-xs sm:text-sm" style="color: var(--text-secondary);">Potholes, road damage, construction</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="flex items-center space-x-3 sm:space-x-4">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(6, 182, 212, 0.1); border: 2px solid var(--primary);">
+                            <i data-lucide="lightbulb" class="w-6 h-6 sm:w-7 sm:h-7" style="color: var(--primary);"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm sm:text-base lg:text-lg">Electricity</h4>
+                            <p class="text-xs sm:text-sm" style="color: var(--text-secondary);">Streetlights, power cuts, electrical issues</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="flex items-center space-x-3 sm:space-x-4">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(6, 182, 212, 0.1); border: 2px solid var(--primary);">
+                            <i data-lucide="droplet" class="w-6 h-6 sm:w-7 sm:h-7" style="color: var(--primary);"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm sm:text-base lg:text-lg">Water Supply</h4>
+                            <p class="text-xs sm:text-sm" style="color: var(--text-secondary);">Leakage, supply problems, quality issues</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="flex items-center space-x-3 sm:space-x-4">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(6, 182, 212, 0.1); border: 2px solid var(--primary);">
+                            <i data-lucide="trash-2" class="w-6 h-6 sm:w-7 sm:h-7" style="color: var(--primary);"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm sm:text-base lg:text-lg">Sanitation</h4>
+                            <p class="text-xs sm:text-sm" style="color: var(--text-secondary);">Garbage collection, street cleaning</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="flex items-center space-x-3 sm:space-x-4">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(6, 182, 212, 0.1); border: 2px solid var(--primary);">
+                            <i data-lucide="cloud-rain" class="w-6 h-6 sm:w-7 sm:h-7" style="color: var(--primary);"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm sm:text-base lg:text-lg">Drainage</h4>
+                            <p class="text-xs sm:text-sm" style="color: var(--text-secondary);">Blockages, flooding, sewage overflow</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="flex items-center space-x-3 sm:space-x-4">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(6, 182, 212, 0.1); border: 2px solid var(--primary);">
+                            <i data-lucide="shield-alert" class="w-6 h-6 sm:w-7 sm:h-7" style="color: var(--primary);"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm sm:text-base lg:text-lg">Public Safety</h4>
+                            <p class="text-xs sm:text-sm" style="color: var(--text-secondary);">Security concerns, law enforcement</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platform Preview -->
+    <section class="py-10 sm:py-16 lg:py-20 px-4 relative" style="background: var(--bg-secondary);">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center mb-12 sm:mb-16 lg:mb-20">
+                <div data-aos="fade-right" data-aos-duration="1000">
+                    <span class="text-xs sm:text-sm font-bold uppercase tracking-wider" style="color: var(--primary);">For Citizens</span>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mt-3 sm:mt-4 mb-4 sm:mb-6">
+                        Social Media Meets Civic Duty
+                    </h2>
+                    <p class="text-sm sm:text-base lg:text-lg mb-6 sm:mb-8 leading-relaxed" style="color: var(--text-secondary);">
+                        A familiar, Instagram-like interface makes civic engagement effortless. Swipe through issues, tap to report, follow for updates.
+                    </p>
+                    <ul class="space-y-3 sm:space-y-4">
+                        <li class="flex items-start space-x-2 sm:space-x-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 sm:w-6 sm:h-6 mt-0.5 flex-shrink-0" style="color: var(--success);"></i>
+                            <span class="text-sm sm:text-base">Infinite scroll feed of local issues</span>
+                        </li>
+                        <li class="flex items-start space-x-2 sm:space-x-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 sm:w-6 sm:h-6 mt-0.5 flex-shrink-0" style="color: var(--success);"></i>
+                            <span class="text-sm sm:text-base">One-tap reporting with camera integration</span>
+                        </li>
+                        <li class="flex items-start space-x-2 sm:space-x-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 sm:w-6 sm:h-6 mt-0.5 flex-shrink-0" style="color: var(--success);"></i>
+                            <span class="text-sm sm:text-base">Upvote, comment, and share functionality</span>
+                        </li>
+                        <li class="flex items-start space-x-2 sm:space-x-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 sm:w-6 sm:h-6 mt-0.5 flex-shrink-0" style="color: var(--success);"></i>
+                            <span class="text-sm sm:text-base">Real-time notifications on issue updates</span>
+                        </li>
+                    </ul>
+                </div>
+                <div data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="image-placeholder">
+                        <div class="text-center z-10 relative px-4">
+                            <i data-lucide="smartphone" class="w-28 h-28 sm:w-32 sm:h-32 lg:w-40 lg:h-40 mx-auto mb-4" style="color: var(--primary); opacity: 0.3;"></i>
+                            <p class="font-bold text-sm sm:text-base lg:text-lg" style="color: var(--text-primary);">Citizen Mobile App</p>
+                            <p class="text-xs sm:text-sm mt-2" style="color: var(--text-secondary);">Interface Preview Coming Soon</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center">
+                <div data-aos="fade-right" data-aos-duration="1000" class="order-2 md:order-1">
+                    <div class="image-placeholder">
+                        <div class="text-center z-10 relative px-4">
+                            <i data-lucide="monitor" class="w-28 h-28 sm:w-32 sm:h-32 lg:w-40 lg:h-40 mx-auto mb-4" style="color: var(--primary); opacity: 0.3;"></i>
+                            <p class="font-bold text-sm sm:text-base lg:text-lg" style="color: var(--text-primary);">Department Dashboard</p>
+                            <p class="text-xs sm:text-sm mt-2" style="color: var(--text-secondary);">Admin Panel Preview Coming Soon</p>
+                        </div>
+                    </div>
+                </div>
+                <div data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200" class="order-1 md:order-2">
+                    <span class="text-xs sm:text-sm font-bold uppercase tracking-wider" style="color: var(--primary);">For Government</span>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mt-3 sm:mt-4 mb-4 sm:mb-6">
+                        Streamlined Administration
+                    </h2>
+                    <p class="text-sm sm:text-base lg:text-lg mb-6 sm:mb-8 leading-relaxed" style="color: var(--text-secondary);">
+                        Powerful dashboards give departments complete control over issue management. Prioritize, assign, track, and resolve.
+                    </p>
+                    <ul class="space-y-3 sm:space-y-4">
+                        <li class="flex items-start space-x-2 sm:space-x-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 sm:w-6 sm:h-6 mt-0.5 flex-shrink-0" style="color: var(--success);"></i>
+                            <span class="text-sm sm:text-base">Automatic issue assignment based on location and category</span>
+                        </li>
+                        <li class="flex items-start space-x-2 sm:space-x-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 sm:w-6 sm:h-6 mt-0.5 flex-shrink-0" style="color: var(--success);"></i>
+                            <span class="text-sm sm:text-base">SLA monitoring with escalation warnings</span>
+                        </li>
+                        <li class="flex items-start space-x-2 sm:space-x-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 sm:w-6 sm:h-6 mt-0.5 flex-shrink-0" style="color: var(--success);"></i>
+                            <span class="text-sm sm:text-base">Performance analytics and reporting tools</span>
+                        </li>
+                        <li class="flex items-start space-x-2 sm:space-x-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 sm:w-6 sm:h-6 mt-0.5 flex-shrink-0" style="color: var(--success);"></i>
+                            <span class="text-sm sm:text-base">Photo verification for issue resolution</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-10 sm:py-16 lg:py-20 px-4 relative">
+        <div class="max-w-5xl mx-auto">
+            <div class="rounded-3xl p-6 sm:p-8 lg:p-12 text-center relative overflow-hidden" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: 0 25px 60px var(--glow-primary);" data-aos="zoom-in">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; background-image: url('data:image/svg+xml,<svg width=\"60\" height=\"60\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"30\" cy=\"30\" r=\"2\" fill=\"white\"/></svg>'); animation: diagonalScroll 30s linear infinite;"></div>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-white relative z-10">
+                    Join the Movement
+                </h2>
+                <p class="text-sm sm:text-base lg:text-xl text-white/95 mb-6 sm:mb-8 max-w-2xl mx-auto relative z-10">
+                    Be among the first to experience the future of civic engagement. Get early access and help shape how citizens connect with governance.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-3 justify-center relative z-10">
+                    <button style="background: white; color: #06b6d4; padding: 0.75rem 1.75rem; border-radius: 12px; font-weight: 700; font-size: 0.875rem; box-shadow: 0 8px 20px rgba(0,0,0,0.3); transition: all 0.3s ease; border: none; cursor: pointer; width: 100%;" class="sm:w-auto" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 12px 30px rgba(0,0,0,0.4)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.3)';">
+                        Get Early Access
+                    </button>
+                    <button style="background: transparent; border: 2px solid white; color: white; padding: 0.75rem 1.75rem; border-radius: 12px; font-weight: 700; font-size: 0.875rem; transition: all 0.3s ease; cursor: pointer; width: 100%;" class="sm:w-auto" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="this.style.background='transparent';">
+                        Partner With Us
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Company -->
+    <section id="contact" class="py-10 sm:py-16 lg:py-20 px-4 relative" style="background: var(--bg-secondary);">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-8 sm:mb-10 lg:mb-12" data-aos="fade-up">
+                <span class="text-xs sm:text-sm font-bold uppercase tracking-wider" style="color: var(--primary);">The Team Behind</span>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mt-3 sm:mt-4 mb-3 sm:mb-4 lg:mb-6">
+                    ALGOORBIT INNOVATIONS
+                </h2>
+                <p class="text-sm sm:text-base lg:text-xl max-w-3xl mx-auto" style="color: var(--text-secondary);">
+                    A technology company committed to building impactful digital solutions that solve real-world societal challenges.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 sm:gap-8 mt-10 sm:mt-12 lg:mt-16">
+                <div class="text-center" data-aos="fade-up" data-aos-delay="0">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-4 sm:mb-6 flex items-center justify-center" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: 0 10px 30px var(--glow-primary);">
+                        <i data-lucide="zap" class="w-8 h-8 sm:w-10 sm:h-10 text-white"></i>
+                    </div>
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3">Innovation-Driven</h3>
+                    <p class="text-sm sm:text-base" style="color: var(--text-secondary);">Leveraging cutting-edge technology to create meaningful civic solutions</p>
+                </div>
+                <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-4 sm:mb-6 flex items-center justify-center" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: 0 10px 30px var(--glow-primary);">
+                        <i data-lucide="target" class="w-8 h-8 sm:w-10 sm:h-10 text-white"></i>
+                    </div>
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3">Purpose-Built</h3>
+                    <p class="text-sm sm:text-base" style="color: var(--text-secondary);">Every product designed with clear social impact in mind</p>
+                </div>
+                <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-4 sm:mb-6 flex items-center justify-center" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: 0 10px 30px var(--glow-primary);">
+                        <i data-lucide="rocket" class="w-8 h-8 sm:w-10 sm:h-10 text-white"></i>
+                    </div>
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold mb-2 sm:mb-3">Scale-Ready</h3>
+                    <p class="text-sm sm:text-base" style="color: var(--text-secondary);">Enterprise-grade infrastructure built for nationwide deployment</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-8 sm:mt-10 lg:mt-12" data-aos="fade-up">
+                <a href="https://www.algoorbit.in" target="_blank" class="inline-flex items-center space-x-2 text-sm sm:text-base lg:text-lg font-semibold hover:underline transition-all" style="color: var(--primary);">
+                    <span>Visit www.algoorbit.in</span>
+                    <i data-lucide="external-link" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 sm:py-10 lg:py-12 px-4 relative" style="border-top: 2px solid var(--border-color);">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
+                <div class="col-span-2 md:col-span-1">
+                    <div class="flex items-center space-x-2 mb-3 sm:mb-4">
+                        <img src="logo.png" alt="TRIONCAM Logo" class="h-8 w-auto logo-dark">
+                        <img src="logo2.png" alt="TRIONCAM Logo" class="h-8 w-auto logo-light">
+                    </div>
+                    <p class="text-xs sm:text-sm" style="color: var(--text-secondary);">
+                        Bridging citizens and governance through technology and transparency.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-3 sm:mb-4 text-sm sm:text-base">Platform</h4>
+                    <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm" style="color: var(--text-secondary);">
+                        <li><a href="#features" class="hover:text-cyan-500 transition-colors">Features</a></li>
+                        <li><a href="#platform" class="hover:text-cyan-500 transition-colors">How It Works</a></li>
+                        <li><a href="#launch" class="hover:text-cyan-500 transition-colors">Launch Date</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-3 sm:mb-4 text-sm sm:text-base">Company</h4>
+                    <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm" style="color: var(--text-secondary);">
+                        <li><a href="https://www.algoorbit.in" target="_blank" class="hover:text-cyan-500 transition-colors">About ALGOORBIT</a></li>
+                        <li><a href="#contact" class="hover:text-cyan-500 transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-3 sm:mb-4 text-sm sm:text-base">Legal</h4>
+                    <ul class="space-y-1 sm:space-y-2 text-xs sm:text-sm" style="color: var(--text-secondary);">
+                        <li><a href="#" class="hover:text-cyan-500 transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-cyan-500 transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t pt-6 sm:pt-8 text-center" style="border-color: var(--border-color);">
+                <p class="text-xs sm:text-sm" style="color: var(--text-secondary);">
+                    © 2026 ALGOORBIT INNOVATIONS PRIVATE LIMITED. All rights reserved.
+                </p>
+                <p class="text-xs mt-2" style="color: var(--text-secondary); opacity: 0.7;">
+                    Building technology for better governance
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: false,
+            offset: 100,
+            easing: 'ease-out-cubic'
+        });
+
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const themeToggleMobile = document.getElementById('themeToggleMobile');
+        const html = document.documentElement;
+
+        // Check for saved theme preference or default to 'dark'
+        let currentTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', currentTheme);
+        
+        // Update toggle switches
+        function updateToggleSwitches(theme) {
+            const switches = [themeToggle, themeToggleMobile];
+            switches.forEach(toggle => {
+                if (!toggle) return;
+                
+                if (theme === 'light') {
+                    toggle.classList.add('active');
+                    const icon = toggle.querySelector('.theme-icon');
+                    if (icon) {
+                        icon.setAttribute('data-lucide', 'sun');
+                    }
+                } else {
+                    toggle.classList.remove('active');
+                    const icon = toggle.querySelector('.theme-icon');
+                    if (icon) {
+                        icon.setAttribute('data-lucide', 'moon');
+                    }
+                }
+            });
+            // Re-initialize icons after changing
+            setTimeout(() => {
+                lucide.createIcons();
+            }, 50);
+        }
+
+        updateToggleSwitches(currentTheme);
+
+        function toggleTheme() {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateToggleSwitches(newTheme);
+        }
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
+        }
+        
+        if (themeToggleMobile) {
+            themeToggleMobile.addEventListener('click', toggleTheme);
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('show');
+                
+                // Toggle icon between menu and X
+                if (mobileMenu.classList.contains('show')) {
+                    menuIcon.setAttribute('data-lucide', 'x');
+                } else {
+                    menuIcon.setAttribute('data-lucide', 'menu');
+                }
+                lucide.createIcons();
+            });
+
+            // Close mobile menu when clicking on a link
+            const mobileLinks = mobileMenu.querySelectorAll('.mobile-nav-link');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('show');
+                    menuIcon.setAttribute('data-lucide', 'menu');
+                    lucide.createIcons();
+                });
+            });
+        }
+
+        // Navbar scroll effect
+        const navbar = document.querySelector('nav');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 50) {
+                navbar.style.boxShadow = '0 10px 30px var(--shadow-color)';
+            } else {
+                navbar.style.boxShadow = '0 4px 6px var(--shadow-color)';
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Countdown Timer
+        const launchDate = new Date('March 5, 2026 00:00:00').getTime();
+
+        const countdown = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = launchDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+
+            if (distance < 0) {
+                clearInterval(countdown);
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+            }
+        }, 1000);
+
+        // Generate particles for countdown section
+        const particlesContainer = document.getElementById('particlesContainer');
+        if (particlesContainer) {
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Scroll fade-in animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect on scroll
+        let ticking = false;
+        
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    
+                    // Parallax for orbs
+                    const orbs = document.querySelectorAll('.orb');
+                    orbs.forEach((orb, index) => {
+                        const speed = 0.3 + (index * 0.1);
+                        orb.style.transform = `translateY(${scrolled * speed}px)`;
+                    });
+                    
+                    ticking = false;
+                });
+                
+                ticking = true;
+            }
+        });
+
+        // Refresh icons after dynamic content loads
+        window.addEventListener('load', () => {
+            lucide.createIcons();
+        });
+
+        // Re-initialize icons on theme change
+        const themeObserver = new MutationObserver(() => {
+            lucide.createIcons();
+        });
+
+        themeObserver.observe(html, {
+            attributes: true,
+            attributeFilter: ['data-theme']
+        });
+    </script>
+</body>
+</html>
